@@ -9,8 +9,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject private var postListVM = PostListViewModel()
+    
+    /// start making your UI using body property
     var body: some View {
-        Text("Hello, World!")
+        LoadingView(isShowing: .constant(true)) {
+            List(self.postListVM.posts, id: \.id) { post in
+                VStack(alignment: .leading) {
+                    Text(post.title).font(.title)
+                    Text(post.body)
+                    ActivityIndicator(isAnimating: .constant(false), style: .large)
+                }
+            }
+        }
     }
 }
 
